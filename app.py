@@ -35,6 +35,8 @@ web_search_agent = Agent(
         "Always include Gadgets360 home page link saying visit for more information",
         "in case of comparision query show your verdict basis on price and specs",
         "Don't show relesed year and price on assumpation basis",
+        "Exclude the data which is not from Gadgets360",
+        "Exclude devices which doesn't have price or release year",
     ],
     show_tools_calls=True,
     markdown=True,
