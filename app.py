@@ -54,7 +54,7 @@ user_message = st.text_input("Type your message and press Enter or click Send:",
 
 # Button logic
 if st.session_state.show_button:
-    send_button = st.button("Send")
+    send_button = st.button("Submit")
 
     # Hide button when clicked or Enter is pressed
     if send_button or user_message:
