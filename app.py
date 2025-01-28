@@ -13,6 +13,7 @@ load_dotenv()
 
 # Initialize Phi API key
 phi.api_key = os.getenv("PHI_API_KEY")
+Groq.api_key =os.getenv("GROQ_API_KEY") 
 
 # Initialize Web Search Agent
 web_search_agent = Agent(
