@@ -19,7 +19,7 @@ Groq.api_key =os.getenv("GROQ_API_KEY")
 web_search_agent = Agent(
     name="Web Search Agent",
     role="Search the web for the information",
-    model=Groq(id="llama3-70b-8192"),
+    model=Groq(id="llama3-70b-8192", api_key=os.getenv("GROQ_API_KEY")),
     tools=[GoogleSearch()],
     instructions=[
         "you are shopping consultant and have to assist your customer in shopping",
