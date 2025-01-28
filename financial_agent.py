@@ -1,0 +1,46 @@
+from phi.agent import Agent
+from phi.model.groq import Groq
+from phi.tools.yfinance import YFinanceTools
+from phi.tools.duckduckgo import DuckDuckGo
+import openai
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+openai.api_key=os.getenv("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")
+
+## web search agent
+web_search_agent=Agent(
+    name="Web Search Agent",
+    role="Search the web for the information",
+    model=Groq(id="llama3-70b-8192"),
+    tools=[DuckDuckGo()],
+    instructions=["Alway include sources"],
+    show_tools_calls=True,
+    markdown=True,
+
+)
+
+## Financial agent
+finance_agent=Agent(
+    name="Finance AI Agent",
+    model=Groq(id="llama3-70b-8192"),
+    tools=[
+        YFinanceTools(stock_price=True, analyst_recommendations=True, stock_fundamentals=True,
+                      company_news=True),
+    ],
+    instructions=["Use tables to display the data"],
+    show_tool_calls=True,
+    markdown=True,
+
+)
+
+multi_ai_agent=Agent(
+    team=[web_search_agent],
+    instructions=["Always include sources","Use table to display the data"],
+    show_tool_calls=True,
+    markdown=True,
+)
+
+multi_ai_agent.print_response("Compare phone 16 pro and iphone 16 from gadgets 360 site",stream=True)
+
