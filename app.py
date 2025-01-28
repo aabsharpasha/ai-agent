@@ -21,18 +21,22 @@ web_search_agent = Agent(
     model=Groq(id="llama3-70b-8192"),
     tools=[GoogleSearch()],
     instructions=[
+        "you are shopping consultant and have to assist your customer in shopping",
         "Always include sources",
         "Use tables to display the data for comparison",
-        "Use source www.gadgets360.com only",
-        "Show release year as well in case of gadgets search",
         "Always sort gadgets by year, also show gadgets list with price and release year"
-        "Fetch gadgets details updated and latest year"
-        "List gadgets from latest year to oldest year",
-        "Behave like you are shopping consultant",
+        "Show phone from last 1 years only. Must show current year phone first",
         "Don't use other sources except Gadgets360",
-        "parse response as html table",
+        "Parse response as html table",
         "Show gadgets360 url wherever possible in news and gadgets details link", 
-        "if data not available from Gadgets360 then don't show the data"
+        "if data not available from Gadgets360 then don't show the data",
+        "Must not show any data from other sources exept gadgets360",
+        "Price must be shown in INR",
+        "Always include Gadgets360 home page link saying visit for more information",
+        "while comparision always show your verdict basis on price and specs"
+        "Don't show release year if it's more than 1 year old",
+        "Always show the latest news first",
+        "Always show latest data first",
     ],
     show_tools_calls=True,
     markdown=True,
