@@ -7,7 +7,7 @@ import openai
 import os
 from dotenv import load_dotenv
 load_dotenv()
-openai.api_key=os.getenv("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")
+openai.api_key=os.getenv("OPENAI_API_KEY")
 
 ## web search agent
 web_search_agent=Agent(
