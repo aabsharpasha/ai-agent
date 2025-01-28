@@ -33,14 +33,8 @@ web_search_agent = Agent(
         "Must not show any data from other sources exept gadgets360",
         "Price must be shown in INR",
         "Always include Gadgets360 home page link saying visit for more information",
-        "while comparision always show your verdict basis on price and specs"
-        "Always show the latest news first",
-        "Always show latest phones first",
-        "Include phones current year and last year only",
-        "Show mobiles with images if available"
-        "Sort phones by release year",
-        "Fetch phones for current and last year only"
-        "Don't show phones older than 1 years",
+        "in case of comparision query show your verdict basis on price and specs"
+        "Show mobiles with images if images available"
     ],
     show_tools_calls=True,
     markdown=True,
@@ -51,33 +45,62 @@ st.title("Gadgets360 AI Shopping Consultant")
 st.write("This AI Chatbot resolve your query reagrding shopping, tech news and provides information from **Gadgets360**.")
 
 
+# Initialize state for button visibility
+if "show_button" not in st.session_state:
+    st.session_state.show_button = True
 
-def search(query):
-    try:
-        response = web_search_agent.run(query, stream=False)
-        st.empty()
-        st.write(response.content)  # Display the response content
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
+# User input
+user_message = st.text_input("Type your message and press Enter or click Send:", key="user_input")
 
-# Create a text input for user query
-    #query = st.text_input("Enter your search query", "")
+# Button logic
+if st.session_state.show_button:
+    send_button = st.button("Send")
 
-# User Input
-col1, col2 = st.columns([4, 1])  # Adjust column widths as needed
+    # Hide button when clicked or Enter is pressed
+    if send_button or user_message:
+        st.session_state.show_button = False
 
-with col1:
-   query = st.text_input("Enter your query:", value="",key="search_input")
+# Render bot response and re-enable button
+if not st.session_state.show_button and user_message:
+    response = web_search_agent.run(user_message, stream=False)
+    bot_response = f"Bot: You said '{user_message}'"
+    st.write(response.content)
+    
+    # Reset button visibility
+    st.session_state.show_button = True
 
-with col2:
-    st.markdown("<div style='height: 1.3em;'></div>", unsafe_allow_html=True)  # Add vertical space to align
-    if st.button("Search"):
-        with st.spinner("Searching..."):
-            st.empty()
-            search(query)
 
-if query:  # This condition is met when the user presses Enter after typing the query
-    with st.spinner("Searching..."):
-        st.empty()
-        search(query)
+
+
+
+
+
+# def search(query):
+#     try:
+#         response = web_search_agent.run(query, stream=False)
+#         st.empty()
+#         st.write(response.content)  # Display the response content
+#     except Exception as e:
+#         st.error(f"An error occurred: {e}")
+
+# # Create a text input for user query
+#     #query = st.text_input("Enter your search query", "")
+
+# # User Input
+# col1, col2 = st.columns([4, 1])  # Adjust column widths as needed
+
+# with col1:
+#    query = st.text_input("Enter your query:", value="",key="search_input")
+
+# with col2:
+#     st.markdown("<div style='height: 1.3em;'></div>", unsafe_allow_html=True)  # Add vertical space to align
+#     if st.button("Search"):
+#         with st.spinner("Searching..."):
+#             st.empty()
+#             search(query)
+
+# if query:  # This condition is met when the user presses Enter after typing the query
+#     with st.spinner("Searching..."):
+#         st.empty()
+#         search(query)
 
