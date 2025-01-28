@@ -23,7 +23,7 @@ web_search_agent = Agent(
     instructions=[
         "you are shopping consultant and have to assist your customer in shopping",
         "Always include sources",
-        "Use tables to display the data for comparison",
+        "Render data as table",
         "Always sort gadgets by year, also show gadgets list with price and release year"
         "Show phone from last 1 years only. Must show current year phone first",
         "Don't use other sources except Gadgets360",
@@ -33,42 +33,60 @@ web_search_agent = Agent(
         "Must not show any data from other sources exept gadgets360",
         "Price must be shown in INR",
         "Always include Gadgets360 home page link saying visit for more information",
-        "in case of comparision query show your verdict basis on price and specs"
-        "Show mobiles with images if images available"
+        "in case of comparision query show your verdict basis on price and specs",
+        "Don't show relesed year and price on assumpation basis",
     ],
     show_tools_calls=True,
     markdown=True,
 )
 
+# User input
+
 # Streamlit App
+
+
+if "response" not in st.session_state:
+  st.session_state.response = "" 
+
 st.title("Gadgets360 AI Shopping Consultant")
 st.write("This AI Chatbot resolve your query reagrding shopping, tech news and provides information from **Gadgets360**.")
 
 
-# Initialize state for button visibility
-if "show_button" not in st.session_state:
-    st.session_state.show_button = True
 
-# User input
-user_message = st.text_input("Type your message and press Enter or click Send:", key="user_input")
+# Initialize session state for button state
+if "button_disabled" not in st.session_state:
+    st.session_state.button_disabled = False
 
-# Button logic
-if st.session_state.show_button:
-    send_button = st.button("Submit")
-
-    # Hide button when clicked or Enter is pressed
-    if send_button or user_message:
-        st.session_state.show_button = False
-
-# Render bot response and re-enable button
-if not st.session_state.show_button and user_message:
-    response = web_search_agent.run(user_message, stream=False)
-    bot_response = f"Bot: You said '{user_message}'"
-    st.write(response.content)
+# Callback function to handle processing
+def handle_action():
     
-    # Reset button visibility
-    st.session_state.show_button = True
+    with st.spinner("Bot is typing..."):
+        st.session_state.button_disabled = True  # Disable the button
+        user_message = st.session_state.get("user_input", "")
+        response = web_search_agent.run(user_message, stream=False)
 
+    st.session_state.response = response.content
+    #st.session_state.response = "jdsfdsf";
+    #st.session_state.user_input = ""  # Clear the input box
+    st.session_state.button_disabled = False  # Re-enable the button
+
+
+# Text input with on_change callback for Enter key
+st.text_input(
+    "Type your message and press Enter:",
+    key="user_input",
+    on_change=handle_action,
+)
+
+# Button to send the message
+st.button(
+    "Send",
+    on_click=handle_action,
+    disabled=st.session_state.button_disabled,
+)
+
+if st.session_state.response:
+    st.markdown(st.session_state.response, unsafe_allow_html=True)
 
 
 
