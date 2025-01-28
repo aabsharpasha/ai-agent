@@ -38,6 +38,9 @@ web_search_agent = Agent(
         "Always show latest phones first",
         "Include phones current year and last year only",
         "Show mobiles with images if available"
+        "Sort phones by release year",
+        "Fetch phones for current and last year only"
+        "Don't show phones older than 1 years",
     ],
     show_tools_calls=True,
     markdown=True,
@@ -70,9 +73,11 @@ with col2:
     st.markdown("<div style='height: 1.3em;'></div>", unsafe_allow_html=True)  # Add vertical space to align
     if st.button("Search"):
         with st.spinner("Searching..."):
+            st.empty()
             search(query)
 
 if query:  # This condition is met when the user presses Enter after typing the query
     with st.spinner("Searching..."):
+        st.empty()
         search(query)
 
