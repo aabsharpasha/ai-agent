@@ -28,15 +28,16 @@ web_search_agent = Agent(
         "Show phone from last 1 years only. Must show current year phone first",
         "Don't use other sources except Gadgets360",
         "Parse response as html table",
-        "Show gadgets360 url wherever possible in news and gadgets details link", 
+        "Show gadgets360 corresponding device and news url wherever possible in news and gadgets details link", 
         "if data not available from Gadgets360 then don't show the data",
         "Must not show any data from other sources exept gadgets360",
         "Price must be shown in INR",
         "Always include Gadgets360 home page link saying visit for more information",
         "while comparision always show your verdict basis on price and specs"
-        "Don't show release year if it's more than 1 year old",
         "Always show the latest news first",
-        "Always show latest data first",
+        "Always show latest phones first",
+        "Include phones current year and last year only",
+        "Show mobiles with images if available"
     ],
     show_tools_calls=True,
     markdown=True,
@@ -46,14 +47,12 @@ web_search_agent = Agent(
 st.title("Gadgets360 AI Shopping Consultant")
 st.write("This AI Chatbot resolve your query reagrding shopping, tech news and provides information from **Gadgets360**.")
 
-# User Input
-query = st.text_input("Enter your query:", value="")
-
 
 
 def search(query):
     try:
         response = web_search_agent.run(query, stream=False)
+        st.empty()
         st.write(response.content)  # Display the response content
     except Exception as e:
         st.error(f"An error occurred: {e}")
@@ -61,12 +60,19 @@ def search(query):
 # Create a text input for user query
     #query = st.text_input("Enter your search query", "")
 
-# Trigger the search when the user either presses Enter or clicks the button
+# User Input
+col1, col2 = st.columns([4, 1])  # Adjust column widths as needed
+
+with col1:
+   query = st.text_input("Enter your query:", value="",key="search_input")
+
+with col2:
+    st.markdown("<div style='height: 1.3em;'></div>", unsafe_allow_html=True)  # Add vertical space to align
+    if st.button("Search"):
+        with st.spinner("Searching..."):
+            search(query)
+
 if query:  # This condition is met when the user presses Enter after typing the query
     with st.spinner("Searching..."):
         search(query)
 
-# Optionally, you can still keep the button for manual submission
-if st.button("Search"):
-    with st.spinner("Searching..."):
-        search(query)
