@@ -8,6 +8,9 @@ import phi
 import markdown
 from bs4 import BeautifulSoup
 
+from datetime import datetime
+
+current_year = datetime.now().year
 # Load environment variables from .env file
 load_dotenv()
 
@@ -15,19 +18,21 @@ load_dotenv()
 phi.api_key = os.getenv("PHI_API_KEY")
 #Groq.api_key =os.getenv("GROQ_API_KEY") 
 
+
 # Initialize Web Search Agent
 web_search_agent = Agent(
     name="Web Search Agent",
     role="Search the web for the information",
     model=Groq(id="llama3-70b-8192", api_key=os.getenv("GROQ_API_KEY")),
     tools=[GoogleSearch()],
+    
     instructions=[
         "You are a shopping consultant specializing in smartphones and electronics devices. Your goal is to assist users in finding the best phone and other electonics items based on their needs and preferences. You can also help to search latest movies, crypto price, petrol price or any other section available on Gadgets360.",
         "Always include sources",
         "If someone search any specific device or appliances then fetch the detail link from Gadgets 360 and add it in result",
         #"Find and list the latest smartphones released within 1 year. Include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year. Provide data from trusted sources such as Gadgets360 or official manufacturer websites"
-        "Find the latest smartphone devices and news if anyone search smartphones or news including recent releases, specifications, prices, and major updates in the mobile technology sector. Include a focus on flagship models, mid-range devices, and new features, ensuring the results are from Gadgets 360 and up-to-date official manufacturer. While listing include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year.",
-        "Find the latest movies list order by release year in descending order if anyone search related to movies",
+        f"Retrieve the latest smartphone devices released in {current_year} and {current_year - 1}, along with relevant news if the query includes smartphones or recent updates. Provide details on recent releases, specifications, prices, and key developments in the mobile technology sector. Focus on flagship models, mid-range devices, and notable new features. Ensure the results are sourced from Gadgets 360 and official manufacturers. Each listing should include the phone title, key specifications (processor, RAM, display, camera, battery), price, and release year.",
+        f"Retrieve a list of the latest movies released in {current_year}. Sort the results by release year in descending order. Provide details including the actual movie title and release date.",
         "Please exclude older models and ensure that the search results are from the past month to provide the most recent information.",
         "Show smartphones list order by release year in descending order if anyone search smartphone",
         "Don't fetch or show data from other sources except Gadgets360 or official manufacturer",
@@ -40,6 +45,7 @@ web_search_agent = Agent(
         "Render data as table",
         "Price must be shown in INR",
         "Parse response as html table",
+        "Ask user to rephrase the query if the data is not available and don't show any data except rephase query",
         
     ],
     show_tools_calls=True,
@@ -54,7 +60,9 @@ web_search_agent = Agent(
 if "response" not in st.session_state:
   st.session_state.response = "" 
 
-st.title("Gadgets360 AI Shopping Consultant")
+
+
+st.title(f"Gadgets360 AI Shopping Consultant")
 st.write("This AI Chatbot resolve your query reagrding shopping, tech news and provides information from **Gadgets360**.")
 
 
