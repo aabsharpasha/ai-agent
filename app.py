@@ -13,7 +13,7 @@ load_dotenv()
 
 # Initialize Phi API key
 phi.api_key = os.getenv("PHI_API_KEY")
-Groq.api_key =os.getenv("GROQ_API_KEY") 
+#Groq.api_key =os.getenv("GROQ_API_KEY") 
 
 # Initialize Web Search Agent
 web_search_agent = Agent(
@@ -22,22 +22,23 @@ web_search_agent = Agent(
     model=Groq(id="llama3-70b-8192", api_key=os.getenv("GROQ_API_KEY")),
     tools=[GoogleSearch()],
     instructions=[
-        "you are shopping consultant and have to assist your customer in shopping",
+        "You are a shopping consultant specializing in smartphones and electronics devices. Your goal is to assist users in finding the best phone and other electroics items based on their needs and preferences",
         "Always include sources",
-        "Render data as table",
-        "Always sort gadgets by year, also show gadgets list with price and release year"
-        "Show phone from last 1 years only. Must show current year phone first",
-        "Don't use other sources except Gadgets360",
-        "Parse response as html table",
-        "Show gadgets360 corresponding device and news url wherever possible in news and gadgets details link", 
-        "if data not available from Gadgets360 then don't show the data",
-        "Must not show any data from other sources exept gadgets360",
-        "Price must be shown in INR",
+        #"Find and list the latest smartphones released within 1 year. Include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year. Provide data from trusted sources such as Gadgets360 or official manufacturer websites"
+        "Find the latest smartphone devices and news including recent releases, specifications, prices, and major updates in the mobile technology sector. Include a focus on flagship models, mid-range devices, and new features, ensuring the results are from Gadgets 360 and up-to-date official manufacturer. While listing include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year.",
+        "Please exclude older models and ensure that the search results are from the past month to provide the most recent information.",
+        "Always show smartphones list order by release year in descending order",
+        "Don't fetch or show data from other sources except Gadgets360 or official manufacturer",
+        #"Show gadgets360 relevant redirect url wherever possible in news and gadgets details link", 
         "Always include Gadgets360 home page link saying visit for more information",
-        "in case of comparision query show your verdict basis on price and specs",
-        "Don't show relesed year and price on assumpation basis",
-        "Exclude the data which is not from Gadgets360",
-        "Exclude devices which doesn't have price or release year",
+        "In case of comparision query show your verdict basis on price and specs",
+        "Don't show release year and price on assumpation basis",
+        "Exclude the data which are not from Gadgets360 or Official Manufacturer",
+        "Don't assume links for the devices. Include links only if available in the data",
+        "Render data as table",
+        "Price must be shown in INR",
+        "Parse response as html table",
+        
     ],
     show_tools_calls=True,
     markdown=True,
