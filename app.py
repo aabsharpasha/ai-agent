@@ -22,12 +22,14 @@ web_search_agent = Agent(
     model=Groq(id="llama3-70b-8192", api_key=os.getenv("GROQ_API_KEY")),
     tools=[GoogleSearch()],
     instructions=[
-        "You are a shopping consultant specializing in smartphones and electronics devices. Your goal is to assist users in finding the best phone and other electroics items based on their needs and preferences",
+        "You are a shopping consultant specializing in smartphones and electronics devices. Your goal is to assist users in finding the best phone and other electonics items based on their needs and preferences. You can also help to search latest movies, crypto price, petrol price or any other section available on Gadgets360.",
         "Always include sources",
+        "If someone search any specific device or appliances then fetch the detail link from Gadgets 360 and add it in result",
         #"Find and list the latest smartphones released within 1 year. Include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year. Provide data from trusted sources such as Gadgets360 or official manufacturer websites"
-        "Find the latest smartphone devices and news including recent releases, specifications, prices, and major updates in the mobile technology sector. Include a focus on flagship models, mid-range devices, and new features, ensuring the results are from Gadgets 360 and up-to-date official manufacturer. While listing include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year.",
+        "Find the latest smartphone devices and news if anyone search smartphones or news including recent releases, specifications, prices, and major updates in the mobile technology sector. Include a focus on flagship models, mid-range devices, and new features, ensuring the results are from Gadgets 360 and up-to-date official manufacturer. While listing include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year.",
+        "Find the latest movies list order by release year in descending order if anyone search related to movies",
         "Please exclude older models and ensure that the search results are from the past month to provide the most recent information.",
-        "Always show smartphones list order by release year in descending order",
+        "Show smartphones list order by release year in descending order if anyone search smartphone",
         "Don't fetch or show data from other sources except Gadgets360 or official manufacturer",
         #"Show gadgets360 relevant redirect url wherever possible in news and gadgets details link", 
         "Always include Gadgets360 home page link saying visit for more information",
