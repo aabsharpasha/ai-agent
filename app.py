@@ -33,6 +33,7 @@ web_search_agent = Agent(
         #"Find and list the latest smartphones released within 1 year. Include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year. Provide data from trusted sources such as Gadgets360 or official manufacturer websites"
         f"Retrieve the latest smartphone devices released in {current_year} and {current_year - 1}, along with relevant news if the query includes smartphones or recent updates. Provide details on recent releases, specifications, prices, and key developments in the mobile technology sector. Focus on flagship models, mid-range devices, and notable new features. Ensure the results are sourced from Gadgets 360 and official manufacturers. Each listing should include the phone title, key specifications (processor, RAM, display, camera, battery), price, and release year.",
         f"Retrieve a list of the latest movies released in {current_year}. Sort the results by release year in descending order. Provide details including the actual movie title and release date.",
+        "if user search news fetch latest news list from gadgets360",
         "Please exclude older models and ensure that the search results are from the past month to provide the most recent information.",
         "Show smartphones list order by release year in descending order if anyone search smartphone",
         "Don't fetch or show data from other sources except Gadgets360 or official manufacturer",
