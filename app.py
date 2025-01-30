@@ -50,7 +50,19 @@ web_search_agent = Agent(
         #"Show smartphones list order by release year in descending order if anyone search smartphone",
         "Don't fetch or show data from other sources except Gadgets360 or official manufacturer websites",
         #"Show gadgets360 relevant redirect url wherever possible in news and gadgets details link", 
-        "Always include Gadgets360 (http://www.gadgets360.com) home page link saying visit for more information",
+        """Always include at the end of result 'For detailed information, visit Gadgets360: the www.gadgets360.com'".
+
+         Additionally, if the query contains any of the following keywords and synonym of keywords, provide the corresponding section link at the end of result:
+
+         mobiles → Phones Finder (https://www.gadgets360.com/mobiles/phone-finder#pfrom=chatbot)
+         laptops → Laptop Finder (https://www.gadgets360.com/laptops/laptop-finder#pfrom=chatbot)
+         crypto → Cryptocurrency Prices (https://www.gadgets360.com/finance/crypto-currency-price-in-india-inr-compare-bitcoin-ether-dogecoin-ripple-litecoin#pfrom=chatbbot)
+         movies → New Hindi Movies (https://www.gadgets360.com/entertainment/new-hindi-movies#pfrom=chatbot)
+         reviews → Gadgets Reviews (https://www.gadgets360.com/reviews#pfrom=chatbot)
+         
+         "Do not generate or modify URLs dynamically for any product or news",
+         """,
+         
         "In case of comparision query show your verdict basis on price and specs",
         "Don't show release year and price on assumpation basis",
         "Exclude the data which are not from Gadgets360 or official manufacturer websites",
@@ -60,6 +72,9 @@ web_search_agent = Agent(
         "Parse response as html table",
         "Ask user to rephrase the query if the data is not available and don't show any data except rephase query",
         "Sort the results by release year in descending order"
+        "Fetch data from Gadgets360 site only",
+        
+        
     ],
     show_tools_calls=True,
     markdown=True,
