@@ -28,7 +28,7 @@ web_search_agent = Agent(
     tools=[GoogleSearch()],
     
     instructions=[
-        "You are a shopping consultant specializing in smartphones and electronics devices. Your goal is to assist users in finding the best phone and other electonics items based on their needs and preferences. You can also help to search latest movies, crypto price, petrol price or any other section available on Gadgets360.",
+        "You are a shopping consultant specializing in smartphones and any other appliances. Your goal is to assist users in finding the best phone and other electonics items based on their needs and preferences. You can also help to search latest movies, crypto price, petrol price or any other section available on Gadgets360.",
         "Always include sources",
         "If someone search any specific device or appliances then fetch the detail link from Gadgets 360 and add it in result",
         f"""Extract the product category and budget from the following user query. Convert shorthand budget (e.g., '90k', '1 lakh') into full numeric values (e.g., ₹90,000, ₹100,000).
@@ -41,15 +41,10 @@ web_search_agent = Agent(
         Key Specifications (processor, RAM, camera)
         Price
         Fetch at least 10 results, sorted strictly by the most recent release year. Must not add random links to product title""",
-        #"Find and list the latest smartphones released within 1 year. Include details such as phone title, key specifications (processor, RAM, display, camera, battery), price and release year. Provide data from trusted sources such as Gadgets360 or official manufacturer websites"
-        #f"Retrieve the latest smartphone devices released in {current_year} and {current_year - 1}, along with relevant news if the query includes smartphones or recent updates. Provide details on recent releases, specifications, prices, and key developments in the mobile technology sector. Focus on flagship models, mid-range devices, and notable new features. Ensure the results are sourced from Gadgets 360 and official manufacturers. Each listing should include the phone title, key specifications (processor, RAM, display, camera, battery), price, and release year.",
-        #f"Retrieve the latest appliances,devices released in {current_year} and {current_year - 1}, along with relevant news if the query includes any electronic device.  Ensure the results are sourced from Gadgets360 and official manufacturers, don't show data from e-commerce like Amazoon, Flipkart. Each listing should include the device title, price",
-        f"Retrieve a list of the latest movies released in {current_year}. Sort the results by release year in descending order. Provide details including the actual movie title and release date.",
+        f"Retrieve a list of the latest movies released in {current_year}. Sort the results by release date in descending order.",
         f"If the user searches for news, retrieve the latest articles from https://www.gadgets360.com/news page. The results should include the actual news title and having publication date ({current_date}), and a direct link to the article.",
         "Please exclude older models and ensure that the search results are most recent.",
-        #"Show smartphones list order by release year in descending order if anyone search smartphone",
         "Don't fetch or show data from other sources except Gadgets360 or official manufacturer websites",
-        #"Show gadgets360 relevant redirect url wherever possible in news and gadgets details link", 
         """Always include at the end of result 'For detailed information, visit Gadgets360: the www.gadgets360.com'".
 
          Additionally, if the query contains any of the following keywords and synonym of keywords, provide the corresponding section link at the end of result:
@@ -62,7 +57,7 @@ web_search_agent = Agent(
          web series →  New Web Series (https://www.gadgets360.com/entertainment/new-web-series#pfrom=chatbot)
          reviews → Gadgets Reviews (https://www.gadgets360.com/reviews#pfrom=chatbot)
          
-         "Do not generate or modify URLs dynamically for any product or news",
+         "Do not generate or modify URLs dynamically for any product or news"
          """,
         "In case of comparision query show your verdict basis on price and specs",
         "Don't show release year and price on assumpation basis",
@@ -71,9 +66,10 @@ web_search_agent = Agent(
         "Render data as table",
         "Price must be shown in INR",
         "Parse response as html table",
-        "Sort the results by release year in descending order"
+        "Sort the results by release year in descending order",
+        "Do not perform a data search for greetings.",
         "Fetch data from Gadgets360 site only",
-        "Only display results if relevant data is available. If not, prompt the user to rephrase their query without displaying any data."
+        "Return only verified data exactly as retrieved from the source. Do not generate or modify URLs dynamically. If no valid data is found, respond with: 'No relevant data found. Please rephrase your query and try again.' If links are required, only return those explicitly present in the retrieved source data. Do not attempt to guess or fabricate links."
     ],
     show_tools_calls=True,
     markdown=True,
