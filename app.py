@@ -57,12 +57,13 @@ web_search_agent = Agent(
          mobiles → Phones Finder (https://www.gadgets360.com/mobiles/phone-finder#pfrom=chatbot)
          laptops → Laptop Finder (https://www.gadgets360.com/laptops/laptop-finder#pfrom=chatbot)
          crypto → Cryptocurrency Prices (https://www.gadgets360.com/finance/crypto-currency-price-in-india-inr-compare-bitcoin-ether-dogecoin-ripple-litecoin#pfrom=chatbbot)
-         movies → New Hindi Movies (https://www.gadgets360.com/entertainment/new-hindi-movies#pfrom=chatbot)
+         bollywood movies → New Hindi Movies (https://www.gadgets360.com/entertainment/new-hindi-movies#pfrom=chatbot)
+         hollywood movies → New Hollywood Movies (https://www.gadgets360.com/entertainment/new-english-movies#pfrom=chatbot)
+         web series →  New Web Series (https://www.gadgets360.com/entertainment/new-web-series#pfrom=chatbot)
          reviews → Gadgets Reviews (https://www.gadgets360.com/reviews#pfrom=chatbot)
          
          "Do not generate or modify URLs dynamically for any product or news",
          """,
-         
         "In case of comparision query show your verdict basis on price and specs",
         "Don't show release year and price on assumpation basis",
         "Exclude the data which are not from Gadgets360 or official manufacturer websites",
@@ -70,11 +71,9 @@ web_search_agent = Agent(
         "Render data as table",
         "Price must be shown in INR",
         "Parse response as html table",
-        "Ask user to rephrase the query if the data is not available and don't show any data except rephase query",
         "Sort the results by release year in descending order"
         "Fetch data from Gadgets360 site only",
-        
-        
+        "Only display results if relevant data is available. If not, prompt the user to rephrase their query without displaying any data."
     ],
     show_tools_calls=True,
     markdown=True,
@@ -92,8 +91,6 @@ if "response" not in st.session_state:
 
 st.title(f"Gadgets360 AI Shopping Consultant")
 st.write("This AI Chatbot resolve your query reagrding shopping, tech news and provides information from **Gadgets360**.")
-
-
 
 # Initialize session state for button state
 if "button_disabled" not in st.session_state:
